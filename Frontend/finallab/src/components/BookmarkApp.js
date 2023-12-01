@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './BookmarkApp.css';
+import { FacebookShareButton, TwitterShareButton,WhatsappShareButton } from 'react-share';
+import { FaFacebookSquare } from "react-icons/fa";
+import { FaTwitter } from "react-icons/fa";
+import { FaWhatsapp } from "react-icons/fa";
 
 const apiUrl = 'http://localhost:3000/api';
 
@@ -49,6 +53,9 @@ const BookmarkApp = () => {
     fetchAllBookmarks();
   };
 
+  const shareMessage = "Checkout my new bookmark!"; 
+
+  
   const filteredBookmarks = bookmarks.filter((bookmark) =>
     bookmark.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -89,6 +96,18 @@ const BookmarkApp = () => {
               {bookmark.title}
             </a>
             <button onClick={() => deleteBookmark(bookmark.id)}>Delete</button>
+            
+            <div className="social-sharing">
+              <FacebookShareButton url={bookmark.url} quote={shareMessage}>
+                <FaFacebookSquare />
+              </FacebookShareButton>
+              <TwitterShareButton url={bookmark.url} title={shareMessage}>
+                <FaTwitter />
+              </TwitterShareButton>
+              <WhatsappShareButton url={bookmark.url} title={shareMessage}>
+                <FaWhatsapp />
+              </WhatsappShareButton>
+            </div>
           </li>
         ))}
       </ul>
