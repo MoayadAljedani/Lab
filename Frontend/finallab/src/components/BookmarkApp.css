@@ -113,4 +113,17 @@ body {
   .social-sharing .react-share__ShareButton:focus {
     outline: none;
   }
+  .confirm-edit-btn {
+    padding: 10px 15px;
+    background-color: #4CAF50; 
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px 0;
+  }
+  
+  .confirm-edit-btn:hover {
+    background-color: #45a049; 
+  }
   

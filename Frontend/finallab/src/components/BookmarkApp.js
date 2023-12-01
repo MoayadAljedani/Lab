@@ -11,6 +11,8 @@ const BookmarkApp = () => {
   const [bookmarks, setBookmarks] = useState([]);
   const [newBookmark, setNewBookmark] = useState({ url: '', title: '' });
   const [searchQuery, setSearchQuery] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentBookmarkId, setCurrentBookmarkId] = useState(null);
 
   useEffect(() => {
     fetchAllBookmarks();
@@ -63,6 +65,32 @@ const BookmarkApp = () => {
   const handleNewBookmarkChange = (e, field) => {
     setNewBookmark({ ...newBookmark, [field]: e.target.value });
   };
+  const startEditing = (bookmark) => {
+    setNewBookmark({ url: bookmark.url, title: bookmark.title });
+    setCurrentBookmarkId(bookmark.id);
+    setIsEditing(true);
+  };
+
+  const updateBookmark = async () => {
+    if (newBookmark.url.trim() && newBookmark.title.trim() && currentBookmarkId) {
+      const options = {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ...newBookmark, id: currentBookmarkId }),
+      };
+      try {
+        const response = await fetch(`${apiUrl}/update.php`, options);
+        const data = await response.json();
+        alert(data.message); 
+        setIsEditing(false);
+        fetchAllBookmarks();
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  };
 
   return (
     <div id="content">
@@ -95,6 +123,8 @@ const BookmarkApp = () => {
             <a href={bookmark.url} target="_blank" rel="noopener noreferrer">
               {bookmark.title}
             </a>
+            <button onClick={() => startEditing(bookmark)}>Edit</button>
+
             <button onClick={() => deleteBookmark(bookmark.id)}>Delete</button>
             
             <div className="social-sharing">
@@ -108,9 +138,32 @@ const BookmarkApp = () => {
                 <FaWhatsapp />
               </WhatsappShareButton>
             </div>
+            
           </li>
+          
         ))}
+        
       </ul>
+      {isEditing && (
+        <div className="edit-form">
+            <label>Edit URL</label>
+          <input
+            type="text"
+            placeholder="Edit URL"
+            value={newBookmark.url}
+            onChange={(e) => handleNewBookmarkChange(e, 'url')}
+          />
+           <label>Edit Title</label>
+          <input
+            type="text"
+            placeholder="Edit Title"
+            value={newBookmark.title}
+            onChange={(e) => handleNewBookmarkChange(e, 'title')}
+          />
+          <button className="confirm-edit-btn" onClick={updateBookmark}>Confirm Edit</button>
+          <button onClick={() => setIsEditing(false)}>Cancel</button>
+        </div>
+      )}
     </div>
   );
 };
