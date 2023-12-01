@@ -8,7 +8,7 @@ CREATE TABLE bookmarks(
   PRIMARY KEY (id)
 );
 INSERT INTO bookmarks (url, title, date_added) VALUES 
-('https://www.example.com', 'Example Website', NOW()),
-('https://www.openai.com', 'OpenAI Website', NOW()),
+('https://www.twitter.com', 'Twitter', NOW()),
+('https://www.youtube.com', 'youtube', NOW()),
 ('https://www.wikipedia.org', 'Wikipedia', NOW());
 

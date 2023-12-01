@@ -1,7 +1,6 @@
 <?php
 // Headers for CORS
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    // Set necessary headers for CORS
     header('Access-Control-Allow-Origin: http://localhost:3001');
     header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
     header('Access-Control-Allow-Headers: Content-Type, Authorization');
@@ -10,7 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0);
 }
 
-// Set CORS headers for actual requests
 header('Access-Control-Allow-Origin: http://localhost:3001');
 include_once '../db/Database.php';
 include_once '../models/Bookmark.php';
